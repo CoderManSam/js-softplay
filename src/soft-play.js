@@ -25,6 +25,11 @@ let children = 0
 // function occupancy() should return an object with two keys: adult and children
 
 
+function resetTotal () {
+  totalAdults = 0
+  totalChildren = 0
+}
+
 let totalAdults = 0
 let totalChildren = 0
 
@@ -133,5 +138,7 @@ module.exports = {
   enter: enter,
   leave: leave,
   occupancy: occupancy,
-  reset: reset
+  reset: reset,
+  total: total,
+  resetTotal: resetTotal,
 }

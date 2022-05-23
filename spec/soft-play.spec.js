@@ -1,4 +1,4 @@
-const {enter, leave, occupancy, reset} = require('../src/soft-play.js')
+const {enter, leave, occupancy, reset, total, resetTotal} = require('../src/soft-play.js')
 
 describe("Soft Play", () => {  
   
@@ -85,5 +85,43 @@ describe("Soft Play", () => {
     enter(2,2)
     expect(leave(2,2)).toBeTrue()
     expect(occupancy()).toEqual({adults: 0, children:0})
+  })
+
+  it("2 adults and 2 children enter total equals 2 and 2, another 2 of each enter total equals 4 and 4", function() {
+    reset()
+    resetTotal()
+    expect(enter(2,2)).toBeTrue()
+    expect(total()).toEqual({totalAdults: 2, totalChildren: 2})
+    expect(enter(2,2)).toBeTrue()
+    expect(total()).toEqual({totalAdults: 4, totalChildren: 4})
+  })
+
+  it("4 adults and 2 children enter total equals 4 and 2, another 2 of each enter total equals 6 and 4", function() {
+    reset()
+    resetTotal()
+    expect(enter(4,2)).toBeTrue()
+    expect(total()).toEqual({totalAdults: 4, totalChildren: 2})
+    expect(enter(2,2)).toBeTrue()
+    expect(total()).toEqual({totalAdults: 6, totalChildren: 4})
+  })
+
+  it("2 adults and 2 children enter total equals 2 and 2, Single adult with 2 children cannot enter total doesn't change", function() {
+    reset()
+    resetTotal()
+    expect(enter(2,2)).toBeTrue()
+    expect(total()).toEqual({totalAdults: 2, totalChildren: 2})
+    expect(enter(1,2)).toBeFalse()
+    expect(total()).toEqual({totalAdults: 2, totalChildren: 2})
+  })
+
+  it("4 adults and 2 children enter total equals 4 and 2, another 2 of each enter total equals 6 and 4, another 10 adults and 8 children enter total equals 16 and 12", function() {
+    reset()
+    resetTotal()
+    expect(enter(4,2)).toBeTrue()
+    expect(total()).toEqual({totalAdults: 4, totalChildren: 2})
+    expect(enter(2,2)).toBeTrue()
+    expect(total()).toEqual({totalAdults: 6, totalChildren: 4})
+    expect(enter(10,8)).toBeTrue()
+    expect(total()).toEqual({totalAdults: 16, totalChildren: 12})
   })
 })
